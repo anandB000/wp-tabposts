@@ -69,3 +69,6 @@ select.tab-input {
   right: -50px;
   z-index: 9999;
 }
+.TabSettings h2,.wptabs_shortcode h2 {
+    padding: 10px 0px !important;
+}

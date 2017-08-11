@@ -3,11 +3,11 @@ Tags: Tab post,Tab,Taxonomy Tab,Post Tab,Category Tab,Category tab post,Wp Tab,W
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This is taxonomy tab post plugin. Its used for tab view posts. Its have admin controls options.
+This is taxonomy tab post plugin. Its used for tab view posts. Its have admin controls options. Responsive WordPress Terms Tab Plugin. Simple to show terms and its posts as tab view.
 
 == Description ==
 
-This is taxonomy tab post plugin. Its used for tab view posts. Its have admin controls options.
+This is taxonomy tab post plugin. Its used for tab view posts. Its have admin controls options. Responsive WordPress Terms Tab Plugin. Simple to show terms and its posts as tab view.
 
 = Custom Options =
 	
@@ -18,6 +18,8 @@ This is taxonomy tab post plugin. Its used for tab view posts. Its have admin co
 == Installation ==
 
 	Add this Short code [WptTabpost tab_id="Tab ID"] from your theme or page
+	
+== Screenshots ==
 
 == Changelog ==
 

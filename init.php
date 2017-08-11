@@ -1,27 +1,29 @@
 <?php
 /*
 Plugin Name: Wp Taxonomy Tab
-Description: Responsive WordPress Terms Tab Plugin
-Version:     0.1
+Description: Responsive WordPress Terms Tab Plugin. Simple to show terms and its posts as tab view.
+Version:     1.0
 Author:      Anandaraj Balu
+Author URI:	 https://profiles.wordpress.org/anand000
+Text Domain: wptaxonomytab
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Copyright 2014-2017 Wp Taxonomy Tab Plugin
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 //Admin Style
@@ -36,21 +38,21 @@ function wptTabPosts_AdminStyle() {
 		echo '<style>#message,.hide-if-no-js{display:none;}</style>';
 	}
 }
-add_action( 'wp_enqueue_scripts', 'wpt_frontendscripts' );
-function wpt_frontendscripts() {
+add_action( 'wp_enqueue_scripts', 'wptTabPosts_public_style' );
+function wptTabPosts_public_style() {
 	wp_register_style( 'open-sans',  'https://fonts.googleapis.com/css?family=Open+Sans:300i,400,400i,600,700,700i' );
 	wp_enqueue_style( 'open-sans' );
 	wp_register_style( 'wpt-style',  plugin_dir_url( __FILE__ ) . 'wpt-style.css',false, '0.1' );
 	wp_enqueue_style( 'wpt-style' );
 }
-add_action( 'wp_footer', 'wpt_footerscript' );
-function wpt_footerscript() {	
+add_action( 'wp_footer', 'wptTabPosts_public_js_scripts' );
+function wptTabPosts_public_js_scripts() {	
 	wp_enqueue_script( 'tab-js',plugin_dir_url( __FILE__ ) .'wpt-tab.js',array('jquery'));
 }
-function wpt_excerpt_more( $more ) {
+function wptTabPosts_excerpt_more( $more ) {
 	return ' . . .';
 }
-add_filter( 'excerpt_more', 'wpt_excerpt_more' );
+add_filter( 'excerpt_more', 'wptTabPosts_excerpt_more' );
 
 //CPT
 add_action('init','WptTabPostsTaxonomy_Reg');
@@ -197,8 +199,8 @@ function WptTabPosts_SaveMeta($post_id){
 }
 
 //Wordpress Ajax
-add_action('wp_ajax_taxonomiesResult','WptTaxonomyListing');
-function WptTaxonomyListing(){
+add_action('wp_ajax_taxonomiesResult','wptTabPosts_TaxonomyListing');
+function wptTabPosts_TaxonomyListing(){
 	if(isset($_POST['key_post'])){
 		$PostType = sanitize_text_field($_POST['key_post']);
 		$Alltaxonomies = get_object_taxonomies($PostType); 
@@ -310,14 +312,14 @@ function WptpostTab($shortcode_id){ob_start();
 								<?php if($key%$wpt_numof==0){ ?><div id="pagId-<?php echo get_the_ID();?>" data-tab-id="<?php echo $key;?>" class="wpt-content <?php if($key == 0){echo 'wpt-active';}?>"><?php }?>
 								<div class="wpt-inner-content">
 									<h2><?php echo sanitize_text_field(get_the_title()); ?></h2>
-									<p><?php echo sanitize_text_field(wpt_excerpt(40)); ?></p>
+									<p><?php echo sanitize_text_field(wptTabPosts_excerpt(40)); ?></p>
 									<p><a class="wpt-btn wpt-btn-<?php echo $postID;?>" href="<?php the_permalink(); ?>">Read more</a></p>
 								</div>
 								<?php if($key%$wpt_numof==($wpt_numof -1) || $key+1==$count){ ?></div><?php }?>
 							<?php }else{ ?>
 								<div class="wpt-content-nopagination">
 									<h2><?php echo sanitize_text_field(get_the_title()); ?></h2>
-									<p><?php echo sanitize_text_field(wpt_excerpt(40)); ?></p>
+									<p><?php echo sanitize_text_field(wptTabPosts_excerpt(40)); ?></p>
 									<p><a class="wpt-btn wpt-btn-<?php echo $postID;?>" href="<?php the_permalink(); ?>">Read more</a></p>
 								</div>
 							<?php } ?>
@@ -340,7 +342,7 @@ function WptpostTab($shortcode_id){ob_start();
 	}
 	return ob_get_clean(); 
 }
-function wpt_excerpt($limit) {
+function wptTabPosts_excerpt($limit) {
       $excerpt = explode(' ', get_the_excerpt(), $limit);
       if (count($excerpt)>=$limit) {
         array_pop($excerpt);
